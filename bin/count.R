@@ -66,20 +66,18 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
-    write.table(data, output_file_name, col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
+    write.table(data, output_file_name, col.names=TRUE, row.names=FALSE, sep = "\t", quote=FALSE)
 
   } else if (libType == "SS2")
   {
-    write.table(data, "data_temp_73.count", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
     names(data) <- c('cell_id', 'strand', 'chr', 'pos', 'channel')
-    write.table(data, "data_temp_74.count", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
 
     # Get counts at each position
     data <- data[, count := .N, by=.(pos, cell_id, channel, strand)] #
     data <- data[, c("cell_id", "chr", "pos", "strand", "count", "channel")]
 
     ## Output
-    write.table(data, "data_temp.count", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
+    write.table(data, "data_temp.count", col.names=TRUE, row.names=FALSE, sep = "\t", quote=FALSE)
 
      # Get the strand label for the bin
     strand_label <- get_strand(data$strand)

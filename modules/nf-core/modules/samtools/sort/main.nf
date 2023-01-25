@@ -26,7 +26,7 @@ process SAMTOOLS_SORT {
     def software = getSoftwareName(task.process)
     def prefix   = "sorted.${bamFileID}"
     """
-    samtools sort $options.args -@ $task.cpus -o ${prefix}.bam -T $prefix $bam
+    samtools sort $options.args -@ $task.cpus -o ${prefix}.bam -T $prefix $bam 
     cat <<-END_VERSIONS > versions.yml
     ${getProcessName(task.process)}:
         ${getSoftwareName(task.process)}: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
