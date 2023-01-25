@@ -76,10 +76,11 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     data <- data[, count := .N, by=.(pos, cell_id, channel, strand)] #
     data <- data[, c("cell_id", "chr", "pos", "strand", "count", "channel")]
 
-    ## Output
-    write.table(data, "data_temp.count", col.names=TRUE, row.names=FALSE, sep = "\t", quote=FALSE)
+    # TODO: remove this line
+    # write.table(data, "data_temp.count", col.names=TRUE, row.names=FALSE, sep = "\t", quote=FALSE)
 
-     # Get the strand label for the bin
+    # TODO: figure out why get_strand was returning + and -
+    # Get the strand label for the bin
     # strand_label <- get_strand(data$strand)
     strand_label <- "plus"
 
