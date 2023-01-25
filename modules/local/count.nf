@@ -18,5 +18,5 @@ process COUNT {
     ${basename} \\
     ${libType} \\
     ${binSize}
-  """
+  """all_counts.txt
 }
