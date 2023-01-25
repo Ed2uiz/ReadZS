@@ -70,7 +70,9 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
   } else if (libType == "SS2")
   {
+    write.table(data, "data_temp_73.count", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
     names(data) <- c('cell_id', 'strand', 'chr', 'pos', 'channel')
+    write.table(data, "data_temp_74.count", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
 
     # Get counts at each position
     data <- data[, count := .N, by=.(pos, cell_id, channel, strand)] #
@@ -81,8 +83,6 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
      # Get the strand label for the bin
     strand_label <- get_strand(data$strand)
-
-    write.table(strand_label, "strand_label", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
 
     ## Create bin from position
     data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
