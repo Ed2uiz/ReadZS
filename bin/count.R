@@ -80,7 +80,8 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     write.table(data, "data_temp.count", col.names=TRUE, row.names=FALSE, sep = "\t", quote=FALSE)
 
      # Get the strand label for the bin
-    strand_label <- get_strand(data$strand)
+    # strand_label <- get_strand(data$strand)
+    strand_label <- "plus"
 
     ## Create bin from position
     data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
