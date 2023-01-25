@@ -4,13 +4,13 @@ library(data.table)
 
 
 args<-commandArgs(TRUE)
-input_file <- args[1]
-basename <- args[2]
-libType <- args[3]
-binSize <- as.numeric(args[4])
+input_file <- args[1]  # input file
+basename <- args[2] # basename of the output file
+libType <- args[3] # 10X or SS2
+binSize <- as.numeric(args[4]) # bin size
 
 ## Function to get bin from position, strand, and chromsome
-get_bin <- function(pos, binSize, chr, strand, libraryType)
+get_bin <- function(pos, binSize, chr, strand, libraryType) 
 {
   pos <- as.numeric(pos)
   bin_num <- ceiling(pos/binSize)
@@ -23,9 +23,9 @@ get_bin <- function(pos, binSize, chr, strand, libraryType)
 }
 
 ## Determine the strand of the data
-get_strand <- function(strand_col)
+get_strand <- function(strand_col) # strand_col is a vector of strand labels
 {
-  if (unique(strand_col) == "+")
+  if (unique(strand_col) == "+")  # if all reads are on the same strand, return that strand
   {
     strand_label <- "plus"
   } else if (unique(strand_col) == "-")
@@ -73,7 +73,7 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     names(data) <- c('cell_id', 'strand', 'chr', 'pos', 'channel')
 
     # Get counts at each position
-    data <- data[, count := .N, by=.(pos, cell_id, channel, strand)]
+    data <- data[, count := .N, by=.(pos, cell_id, channel, strand)] #
     data <- data[, c("cell_id", "chr", "pos", "strand", "count", "channel")]
 
     ## Output
@@ -81,6 +81,8 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
      # Get the strand label for the bin
     strand_label <- get_strand(data$strand)
+
+    write.table(strand_label, "strand_label", col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
 
     ## Create bin from position
     data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
