@@ -18,7 +18,5 @@ process COUNT {
     ${basename} \\
     ${libType} \\
     ${binSize}
-
-  chmod 777 *.count
   """
 }
