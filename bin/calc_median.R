@@ -69,7 +69,7 @@ z_table <- z_table[cells_per_window_ont > min_cells_per_windowont,]
 
 ## Filter: only keep windows with at least two ontologies
 z_table <- z_table[, num_of_onts := uniqueN(ontology), by=window]
-z_table <- z_table[num_of_onts > 1,]
+# z_table <- z_table[num_of_onts > 1,] #! per-bin analysis
 
 
 ## Add columns to summarize the counts
@@ -79,6 +79,7 @@ z_table <- z_table[, c("has_ann", "cells_per_window", "percent_annotated", "tota
 
 
 ## Calculate chi^2 p-value. First step in Romano p-value approach
+ #! Review
 z_table <- z_table[, real_window_ont := paste(window, ontology, sep="xxx")]  # make a column for the real window-ont pairing of each cell/window line
 z_table <- z_table[, median_z_scaled := median(z_scaled), by = c("real_window_ont", "window")]  # calculate median(z) by window-ont
 z_table <- z_table[, window_ont_var := var(z_scaled), by = c("real_window_ont", "window")]  # calculate var(z) by window-ont
