@@ -48,12 +48,12 @@ def get_args():
   return args
 
 
-def pass_filter(read):
+def pass_filter(read): # check if read passes filter based on reject_flags, mq=255
     cigar = read.cigar
     mq = read.mapping_quality
     read_length = read.query_length
     rejectable_flag = read.flag & reject_flags
-    if cigar == [(0, read_length)] and mq == 255 and not rejectable_flag:
+    if cigar == [(0, read_length)] and mq == 255 and not rejectable_flag: #! does mq=255 work for all aligner outputs?
         return True
 
 def pass_filter_lenient(read):
@@ -69,11 +69,11 @@ def has_barcode_tags(read):
 
 def get_read_info(read, bam_file, isCellranger):
     chr = bam_file.get_reference_name(read.tid)
-    if isCellranger:
-        if "chr" not in chr:
-            chr = "chr" + chr
+    # if isCellranger: #! not unique to cellRanger
+    if "chr" not in chr:
+        chr = "chr" + chr
     position = read.reference_start + 1
-    strand = '-' if read.flag&bit_meanings['read reverse strand'] else '+'
+    strand = '-' if read.flag&bit_meanings['read reverse strand'] else '+' #? not catching sseq strand correctly
 
     return chr, position, strand
 
@@ -151,7 +151,7 @@ def main():
     else:
         isCellranger = False
 
-    bam_file = pysam.AlignmentFile(args.input_bam)
+    bam_file = pysam.AlignmentFile(args.input_bam) #? what are the methods defined in read?
 
     if libType == "10X":
         if isCellranger:
