@@ -29,7 +29,7 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
   # Filter: only windows with min(median) < 0 and max(median) > 0
   pvals[, max_med := max(median_z_scaled), by=window]
   pvals[, min_med := min(median_z_scaled), by=window]
-  pvals <- pvals[(min_med<0) & (max_med>0),]
+  # pvals <- pvals[(min_med<0) & (max_med>0),] #???
 
   genes_only <- genes[, c("gene", "window")]
   all_pvals <- merge(pvals, genes_only, by="window", all.x=T)
